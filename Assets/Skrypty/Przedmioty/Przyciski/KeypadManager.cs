@@ -6,7 +6,8 @@ public class KeypadManager : MonoBehaviour
     public string poprawnyKod = "1234";
     private string wpisanyKod = "";
 
-    public TextMeshPro kodText; // TO JEST INNE NI¯ UI
+    public TextMeshPro kodText;
+    public Animator drzwiAnimator;
 
     public void DodajCyfre(int cyfra)
     {
@@ -22,9 +23,6 @@ public class KeypadManager : MonoBehaviour
     void AktualizujUI()
     {
         kodText.text = wpisanyKod;
-
-        // opcjonalnie:
-        // kodText.text = new string('*', wpisanyKod.Length);
     }
 
     void SprawdzKod()
@@ -32,6 +30,7 @@ public class KeypadManager : MonoBehaviour
         if (wpisanyKod == poprawnyKod)
         {
             Debug.Log("DOBRY KOD");
+            drzwiAnimator.SetBool("Open", true);
         }
         else
         {

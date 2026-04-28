@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class VRKeypadButton : MonoBehaviour
 {
-    public int liczba; // np. 1,2,3...
+    public int liczba;
     public KeypadManager keypad;
 
     public void Nacisnij()
