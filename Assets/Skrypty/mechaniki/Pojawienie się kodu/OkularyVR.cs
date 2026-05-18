@@ -1,74 +1,55 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class OkularyVR : MonoBehaviour
 {
-    public bool aktywne;
-
-    public Transform headMount;
+    [Header("Efekty œwiata")]
     public GameObject efektFioletowy;
+    public GameObject cyfryDrzew;
 
-    private bool zalozone;
-    private Rigidbody rb;
+    private XRGrabInteractable grab;
+
+    void Awake()
+    {
+        grab = GetComponent<XRGrabInteractable>();
+
+        grab.selectEntered.AddListener(OnGrab);
+        grab.selectExited.AddListener(OnRelease);
+    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
-        aktywne = false;
-        zalozone = false;
+        Debug.Log("[OKULARY] START");
 
         if (efektFioletowy != null)
             efektFioletowy.SetActive(false);
 
-        Debug.Log("[OKULARY] START -> aktywne = false");
+        if (cyfryDrzew != null)
+            cyfryDrzew.SetActive(false);
     }
 
-    void Update()
+    // GRACZ TRZYMA OKULARY
+    void OnGrab(SelectEnterEventArgs args)
     {
-        Debug.Log("[OKULARY] Update -> aktywne = " + aktywne + " | zalozone = " + zalozone);
-    }
-
-    public void ZalozOkulary()
-    {
-        Debug.Log("[OKULARY] ZALOZONO");
-
-        zalozone = true;
-        aktywne = true;
-
-        transform.SetParent(headMount);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-            rb.useGravity = false;
-        }
+        Debug.Log("[OKULARY] GRAB -> ON");
 
         if (efektFioletowy != null)
             efektFioletowy.SetActive(true);
 
-        Debug.Log("[OKULARY] EFECT ON");
+        if (cyfryDrzew != null)
+            cyfryDrzew.SetActive(true);
     }
 
-    public void ZdejmijOkulary()
+    // GRACZ PUŒCI£ OKULARY
+    void OnRelease(SelectExitEventArgs args)
     {
-        Debug.Log("[OKULARY] ZDJETO");
-
-        zalozone = false;
-        aktywne = false;
-
-        transform.SetParent(null);
-
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-            rb.useGravity = true;
-        }
+        Debug.Log("[OKULARY] RELEASE -> OFF");
 
         if (efektFioletowy != null)
             efektFioletowy.SetActive(false);
 
-        Debug.Log("[OKULARY] EFECT OFF");
+        if (cyfryDrzew != null)
+            cyfryDrzew.SetActive(false);
     }
 }
